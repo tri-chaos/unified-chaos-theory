@@ -455,8 +455,16 @@
             NODES.title.addEventListener('pointerup', (e) => {
                 const dx = Math.abs(e.clientX - tStartX);
                 const dy = Math.abs(e.clientY - tStartY);
-                // 提供いただいた「10px以内の微細な動き」判定を採用
+                
                 if (dx < 10 && dy < 10 && !STATE.isDrag) {
+                    // --- 追加：ステージ切り替え時にフルスクリーンでなければ起動 ---
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(() => {
+                            // ブラウザ制限により失敗した場合はサイレントにスルー
+                        });
+                    }
+
+                    // ステージ切り替えロジック
                     STATE.nightStage = (STATE.nightStage + 1) % 3;
                     document.body.className = '';
                     if (STATE.nightStage > 0) NODES.body.classList.add(`night-stage-${STATE.nightStage}`);
