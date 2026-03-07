@@ -33,10 +33,9 @@
             overscroll-behavior: none;
             transition: background-color 1.5s ease;
         }
-        
+
         body.night-stage-2 { background-color: #1B1B26; }
 
-        /* --- 1. 背景デジタル時計（初期状態：隠蔽） --- */
         #digital-tracking-clock {
             position: fixed;
             bottom: 13%; left: 4%;
@@ -52,13 +51,13 @@
             mix-blend-mode: multiply;
             will-change: opacity;
         }
-        /* 追随（is-following）クラス付与時に浮上 */
+
         body.is-following #digital-tracking-clock {
             opacity:0.7;
             background: rgba(255, 248, 238, 0.15);
             backdrop-filter: blur(1.7px);
         }
-        /* Stage 2 夜間発光 */
+
         body.night-stage-2.is-following #digital-tracking-clock {
             color: #DAB861;
             opacity: 0.97;
@@ -68,7 +67,6 @@
             backdrop-filter: blur(1.7px);
         }
 
-        /* --- 2. 独立カーテンレイヤー --- */
         #night-curtain {
             position: fixed;
             top: 0; left: 0;
@@ -78,44 +76,48 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 1.8s ease, visibility 2.2s step-end;
+            transition: opacity 0.4s ease, visibility 2.2s step-end;
         }
+
         body.night-stage-1 #night-curtain {
             opacity: 1;
             visibility: visible;
-            transition: opacity 2.2s ease, visibility 0s step-start;
+            transition: opacity 1.4s ease, visibility 0s step-start;
         }
+
         body.night-stage-2 #night-curtain {
             opacity: 0;
             visibility: hidden;
         }
 
-        /* --- 3. アプリコンテナ --- */
         .app-container { 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
             width: 100vw; height: 100vh;
             will-change: transform;
             transform-origin: center center;
-            transition: transform 2.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
             z-index: 10;
             backface-visibility: hidden;
             transform: translate3d(0, 0, 0);
             -webkit-backface-visibility: hidden;
         }
-        
+
         .watch-case { 
             position: relative; width: 78vmin; height: 78vmin; 
             border-radius: 10%; background: var(--case-color); 
             display: flex; align-items: center; justify-content: center; 
             box-shadow: 28px 28px 49px -36.5px rgba(15, 23, 32, 0.9), inset 2px 2px 1px 2px rgba(255, 255, 255, 30), inset 0.3px -0.3px 2.8px 5px rgba(255, 255, 255, 20);
             pointer-events: auto;
-            transition: background-color 2.2s ease;
+            transition: background-color 1.2s ease;
             will-change: transform;
             transform: translate3d(0, 0, 0);
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
-        body.night-stage-2 .watch-case { background-color: #024572; }
+
+        body.night-stage-2 .watch-case {
+            background-color: #024572;
+        }
 
         .dial-base { 
             position: relative; width: 89%; height: 89%;
@@ -134,32 +136,37 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.52);
+            background: rgba(0, 0, 0, 0.6);
             opacity: 0;
-            transition: opacity 2.2s ease;
+            transition: opacity 0.6s ease;
             z-index: 5;
             pointer-events: none;
             overflow: hidden;
             clip-path: circle(50%);
         }
-        body.night-stage-2 .dial-base::after { opacity: 0.56; filter: brightness(0.42) saturate(1.9) contrast(1.0); }
+
+        body.night-stage-2 .dial-base::after {
+            opacity: 0.46;
+            filter: brightness(0.62) saturate(1.5) contrast(1.5);
+        }
 
         .overlay-svg { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             shape-rendering: geometricPrecision; pointer-events: none;
             z-index: 10;
         }
-        
+
         .rotating-layer { transform-origin: 200px 200px; will-change: transform; }
-        
+
         .tri-body {
             filter: brightness(1.0) saturate(1.6);
-            transition: filter 1.8s ease-in-out;
+            transition: filter 1.2s ease-in-out;
             will-change: transform, filter;
         }
+
         body.night-stage-2 .tri-body {
-            filter: brightness(0.88) saturate(1.34) contrast(0.98) drop-shadow(1px 1px 8px rgba(209, 228, 63, 0.5));
-            transition: filter 1.8s ease-out;
+            filter: brightness(0.77) contrast(1.2) saturate(1.4);
+            transition: filter 0.8s ease-out;
             will-change: transform, filter;
         }
 
@@ -172,10 +179,10 @@
         }
 
         .layer-hour, .layer-chaos, .layer-tri-needle { 
-            transition: filter 1.8s ease; 
+            transition: filter 1.2s ease; 
             will-change: filter;
         }
-        
+
         .layer-hour { filter: brightness(1.2) saturate(1.68) drop-shadow(2px 3px 4px rgba(3, 7, 9, 0.45)); }
         .layer-chaos { filter: brightness(1.15) saturate(1.68) drop-shadow(3px 4px 5px rgba(3, 4, 5, 0.35)); }
         .layer-tri-needle { filter: url(#vivid-bevel-fixed) drop-shadow(6px 7px 8px rgba(15, 15, 15, 0.5)); }
@@ -187,19 +194,23 @@
             stroke: #D1E43F; stroke-width: 1.5px;
             filter: brightness(0.84) saturate(1.17) contrast(1.17);
         }
-        body.night-stage-2 .layer-chaos { 
+        body.night-stage-2 .layer-chaos {
             filter: brightness(1.23) saturate(0.85) contrast(1.05) drop-shadow(-1px -1px 3.5px #FFF) drop-shadow(1px 1px 1.5px rgba(240, 247, 255, 1));
+        }    
+        body.night-stage-2 .layer-tri-needle {
+           filter: url(#vivid-bevel-fixed) drop-shadow(1px -1px 2px #F7FF07) drop-shadow(1px -1px 5px #D1E43F) drop-shadow(1px -1px 7px #FEFEFE);
         }
-        body.night-stage-2 .layer-tri-needle { 
-            filter: url(#vivid-bevel-fixed) brightness(0.77) contrast(0.88) drop-shadow(-1px -1px 5.03px #F7FF07) drop-shadow(1px 1px 8px rgba(240, 247, 255, 1));
+        body.night-stage-2 #tri-rotate polygon {
+           fill: #F1C51D; filter: brightness(1.23) saturate(0.85);
         }
-        body.night-stage-2 #tri-rotate polygon { fill: #F1C51D; filter: brightness(1.23) saturate(0.85);
+        body.night-stage-2 {
+           --marker-russet: #F1C51D; filter: brightness(0.95) saturate(0.95) contrast(1.55);
         }
-        body.night-stage-2 { --marker-russet: #F1C51D;
+
+        .footer {
+            margin-top: 20px; text-align: center; pointer-events: auto;
         }
-        .footer { margin-top: 20px; text-align: center; pointer-events: auto; }
-        
-        /* --- タイトルのアクリルプレート化 --- */
+
         .title-main { 
             color: var(--text-main); 
             font-weight: 900; 
@@ -207,10 +218,8 @@
             text-transform: uppercase; 
             font-size: clamp(13px, 2.4vmin, 14.7px); 
             margin-bottom: 5px; 
-            padding: 8px 16px; /* プレートの余白 */
+            padding: 8px 16px;
             cursor: pointer;
-    
-            /* アクリル質感 */
             background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(10px) saturate(180%);
             -webkit-backdrop-filter: blur(10px) saturate(180%);
@@ -219,51 +228,45 @@
             box-shadow: 
                 0 4px 12px rgba(0, 0, 0, 0.08),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-    
             transition: 
                 all 0.4s cubic-bezier(1, 0.8, 0.6, 1),
                 color 0.9s ease;
-    
             touch-action: none;
             user-select: none;
-            display: inline-block; /* プレートとして独立 */
+            display: inline-block;
             will-change: transform, box-shadow, background-color;
         }
 
-        /* 押した時のアクション（沈み込みと光の変化） */
         .title-main:active {
-            transform: scale(0.89) translateY(1.8px); /* 物理的な沈み込み */
-            background: rgba(255, 255, 255, 0.4); /* 圧縮されて透明度が下がる表現 */
+            transform: scale(0.89) translateY(1.8px);
+            background: rgba(255, 255, 255, 0.4);
             box-shadow: 
                 0 1px 2px rgba(10, 10, 10, 0.1),
                 inset 0 0 3px rgba(255, 255, 255, 0.4);
             border-color: rgba(255, 255, 255, 0.6);
         }
 
-        /* Night Stage 2 でのプレート発光 */
         body.night-stage-2 .title-main { 
             background: rgba(90, 85, 81, 0.1);
         }    
         body.night-stage-2 .title-main:active {
             background: rgba(207, 204, 202, 0.1);
-    
         }
 
         body.night-stage-1 .title-main, body.night-stage-2 .title-main { color: #94a3b8; }
-        .title-sub { color: var(--text-sub); font-family: monospace, ui-sans-serif, system-ui, sans-serif; font-size: clamp(7px, 2.4vmin, 7px); font-style: italic; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase; }
-        
-        @media (orientation: landscape) { 
-            /* 1. 時計本体のコンテナ（app-container）は中央配置を死守 */
+        .title-sub { color: var(--text-sub); font-family: monospace, ui-sans-serif, system-ui, sans-serif; font-size: clamp(7px, 2.4vmin, 7px); font-style: italic; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase;
+        }
+
+        @media (orientation: landscape) {
             .app-container { 
                 flex-direction: row; 
                 justify-content: center; 
                 align-items: center;
                 width: 100vw;
                 height: 100vh;
-                position: relative; /* 子要素の基準点にする */
+                position: relative;
             }
 
-            /* 2. タイトル（footer）を「時計の中心」ではなく「画面の座標」で固定 */
             .footer { 
                 position: fixed;
                 left: 70%;
@@ -282,7 +285,7 @@
                 transform: scale(1);
             }
             15% { 
-                filter: brightness(2.5) drop-shadow(0 0 40px rgba(218, 184, 97, 1));
+                filter: brightness(2.5) drop-shadow(0 0 40px rgba(218, 184, 97, 0.8));
                 transform: scale(1.05);
             }
             100% { 
@@ -292,14 +295,13 @@
         }
 
         .is-luminous {
-            animation: luminous-pulse 1.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            animation: luminous-pulse 2.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
     </style>
 </head>
 <body id="body-main">
     <div id="night-curtain"></div>
-    <div id="digital-tracking-clock">00:00</div>
-    
+    <div id="digital-tracking-clock">00:00</div>    
     <div id="main-app" class="app-container">
         <div class="watch-case">
             <div class="dial-base">
@@ -389,11 +391,9 @@
             pointers: [], prevDist: 0, lastTap: 0, initialScale: 1.57,
             timerInterval: null
         };
-        const FPS_INTERVAL = 1000 / 24;
-        
-        // 倍率のステップ定義（お好みの数値に調整してください）
-        const ZOOM_STEPS = [1.48, 2.39, 3.30, 4.21,];
 
+        const FPS_INTERVAL = 1000 / 24;
+        const ZOOM_STEPS = [1.48, 2.39, 3.30, 4.21];
         function updateTransform() {
             // transitionの衝突を防ぐため、ここでも明示的に現在のscale/x/yのみを反映
             NODES.app.style.transform = `translate3d(${STATE.x}px, ${STATE.y}px, 0) scale(${STATE.scale})`;
@@ -404,21 +404,13 @@
             return (Math.floor(h / 6) % 2 === 1 ? 1 : -1) * (window.innerWidth * (SHIFT_VAL / 100));
         }
 
-        // 初期位置へリセットする関数
         function resetToHome() {
             STATE.isFollowing = false;
             document.body.classList.remove('is-following');
-
-            // 1. 一旦 transition を 'none' にして、現在の「歪み」をリセットする準備をする
             NODES.app.style.transition = 'none';
-
-            // 2. 基本数値を復元
-            STATE.scale = 1.48; // 初期スケール
+            STATE.scale = 1.48;
             STATE.x = calculateShiftX();
             STATE.y = 0;
-
-            // 3. 次の描画フレームで「着地」のアニメーションを開始させる
-            // これにより、tri-body の計算破綻を防ぎつつ滑らかに戻ります
             requestAnimationFrame(() => {
                 NODES.app.style.transition = 'transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1)';
                 updateTransform();
@@ -442,13 +434,9 @@
 
         function initInteractions() {
             const app = NODES.app;
-
-            // --- 1. タイトル専用の管理変数（タップ・スワイプ両立用） ---
             let tStartX = 0;
             let tStartY = 0;
-
             NODES.title.addEventListener('pointerdown', (e) => {
-                // 背景のonDownへ情報を流すため stopPropagation はしない
                 tStartX = e.clientX;
                 tStartY = e.clientY;
             });
@@ -456,33 +444,23 @@
             NODES.title.addEventListener('pointerup', (e) => {
                 const dx = Math.abs(e.clientX - tStartX);
                 const dy = Math.abs(e.clientY - tStartY);
-                
                 if (dx < 10 && dy < 10 && !STATE.isDrag) {
-                    // --- 追加：ステージ切り替え時にフルスクリーンでなければ起動 ---
-                    if (!document.fullscreenElement) {
-                        document.documentElement.requestFullscreen().catch(() => {
-                            // ブラウザ制限により失敗した場合はサイレントにスルー
-                        });
-                    }
-
-                    // ステージ切り替えロジック
-                    STATE.nightStage = (STATE.nightStage + 1) % 3;
-                    document.body.className = '';
-                    if (STATE.nightStage > 0) NODES.body.classList.add(`night-stage-${STATE.nightStage}`);
-                    if (STATE.isFollowing) document.body.classList.add('is-following');
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {
+                    });
+                }
+                STATE.nightStage = (STATE.nightStage + 1) % 3;
+                document.body.className = '';
+                if (STATE.nightStage > 0) NODES.body.classList.add(`night-stage-${STATE.nightStage}`);
+                if (STATE.isFollowing) document.body.classList.add('is-following');
                 }
             });
 
-            // --- 2. メイン操作：onDown ---
             const onDown = (e) => {
                 if (e.target.closest('.footer') && !NODES.title.contains(e.target)) return;
-                
-                // 重複登録ガード（固まり防止）
                 if (STATE.pointers.some(p => p.pointerId === e.pointerId)) return;
-                
                 STATE.pointers.push(e);
                 app.style.transition = 'none';
-
                 if (STATE.pointers.length === 1) {
                     STATE.startX = e.clientX;
                     STATE.startY = e.clientY;
@@ -499,19 +477,16 @@
                     STATE.initialScale = STATE.scale;
                 }
             };
-            
-            // --- 3. メイン操作：onMove（あなたのズームロジックを維持） ---
+
             const onMove = (e) => {
                 const index = STATE.pointers.findIndex(p => p.pointerId === e.pointerId);
                 if (index === -1) return;
                 STATE.pointers[index] = e;
-
                 if (STATE.pointers.length === 2) {
                     const dist = Math.hypot(
                         STATE.pointers[0].clientX - STATE.pointers[1].clientX,
                         STATE.pointers[0].clientY - STATE.pointers[1].clientY
                     );
-                    
                     if (STATE.prevDist > 0) {
                         const ratio = dist / STATE.prevDist;
                         if (Math.abs(1 - ratio) > 0.001) {
@@ -519,16 +494,13 @@
                         }
                     }
                     STATE.prevDist = dist;
-
                     STATE.sx = STATE.pointers[0].clientX - STATE.x;
                     STATE.sy = STATE.pointers[0].clientY - STATE.y;
-                    
                     updateTransform();
                 } 
                 else if (STATE.pointers.length === 1) {
                     const dx = e.clientX - STATE.startX;
                     const dy = e.clientY - STATE.startY;
-
                     if (STATE.isDrag) {
                         if (STATE.isFollowing) {
                             STATE.isFollowing = false;
@@ -545,25 +517,20 @@
                 }
             };
 
-            // --- 4. メイン操作：onUp ---
             const onUp = (e) => {
                 const duration = Date.now() - (STATE.pressStartTime || 0);
-
                 if (STATE.pointers.length === 1 && !STATE.isDrag && STATE.prevDist === 0) {
                     if (duration < 300) {
                         handleSmartClick(e);
                     }
                 }
-
                 STATE.pointers = STATE.pointers.filter(p => p.pointerId !== e.pointerId);
-
                 if (STATE.pointers.length < 2) {
                     if (STATE.pointers.length === 1) {
                         STATE.sx = STATE.pointers[0].clientX - STATE.x;
                         STATE.sy = STATE.pointers[0].clientY - STATE.y;
                     }
                 }
-
                 if (STATE.pointers.length === 0) {
                     STATE.isDrag = false;
                     STATE.prevDist = 0;
@@ -575,7 +542,6 @@
 
             function handleSmartClick(e) {
                 if (NODES.title.contains(e.target) || e.target.closest('#digital-tracking-clock')) return;
-
                 const now = Date.now();
                 if (now - STATE.lastTap < 250) {
                     toggleTracking();
@@ -583,21 +549,14 @@
                     return;
                 }
                 STATE.lastTap = now;
-
                 const isCase = e.target.closest('.watch-case');
                 const isDial = e.target.closest('.dial-base');
-
                 if (isCase && !isDial) {
-                    // 次のステップを探す
                     let nextIdx = ZOOM_STEPS.findIndex(s => s > STATE.scale + 0.1);
-        
                 if (nextIdx === -1) {
-                    // 最大値を超えていたらリセット
                     resetToHome();
                 } else {
-                    // 次のステップへ
                     STATE.scale = ZOOM_STEPS[nextIdx];
-                    // ズーム時は一時的に transition を効かせる
                     NODES.app.style.transition = 'transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)';
                     updateTransform();
                 }
@@ -613,7 +572,6 @@
             window.addEventListener('pointermove', onMove);
             window.addEventListener('pointerup', onUp);
             window.addEventListener('pointercancel', onUp);
-
             window.addEventListener('wheel', (e) => {
                 e.preventDefault();
                 const delta = e.deltaY > 0 ? 0.9 : 1.1;
@@ -644,7 +602,7 @@
 
                 if (i % 3 === 0 && !is5) {
                     const p = document.createElementNS("http://www.w3.org/2000/svg", 'polygon');
-                    p.setAttribute('points', `${200+143*cos},${200+143*sin} ${200+148*Math.cos(r-0.04)},${200+148*Math.sin(r-0.04)} ${200+148*Math.cos(r+0.04)},${200+148*Math.sin(r+0.04)}`);
+                    p.setAttribute('points', `${200+140*cos},${200+140*sin} ${200+145*Math.cos(r-0.04)},${200+145*Math.sin(r-0.04)} ${200+145*Math.cos(r+0.04)},${200+145*Math.sin(r+0.04)}`);
                     p.setAttribute('fill', 'var(--marker-russet)');
                     f.appendChild(p);
                 }
@@ -685,8 +643,7 @@
             const s = n.getSeconds(); 
             const m = n.getMinutes(); 
             const h = n.getHours();
-    
-            // 各レイヤーの回転計算
+
             const mf = m + (s + ms / 1000) / 60; 
             const hf = (h % 12) + mf / 60;
             NODES.hour.style.transform = `rotate(${hf * 30}deg)`;
@@ -700,7 +657,7 @@
             const totalTriSec = (m * 60) + s + (ms / 1000);
             const triDeg = totalTriSec * (360 / 3600);
             NODES.tri.style.transform = `rotate(${triDeg}deg)`;
-    
+
             // デジタル時計の表示
             let displayStr = "";
             if (STATE.timerInterval) {
@@ -712,28 +669,21 @@
                 displayStr = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
             }
             NODES.digitalClock.textContent = displayStr;
-
             // 発光エフェクト
             if (chaosM === 0 && s === 0) {
                 NODES.digitalClock.classList.add('is-luminous');
             } else if (s === 2) { 
                 NODES.digitalClock.classList.remove('is-luminous');
             }
-
             // --- 滑らかな追随ロジックの統合 ---
             if (STATE.isFollowing && STATE.pointers.length === 0 && !STATE.isDrag) {
                 const rad = (STATE.currentChaosDeg - 90) * (Math.PI / 180);
-        
-                // 目標地点
                 const targetX = -Math.cos(rad) * 85 * STATE.scale;
                 const targetY = -Math.sin(rad) * 85 * STATE.scale;
-
                 // 線形補間(Lerp)で吸い付かせる
                 const ease = 0.75; // 0.1〜0.2の間でお好みで調整
                 STATE.x += (targetX - STATE.x) * ease;
                 STATE.y += (targetY - STATE.y) * ease;
-
-                // 追随中は transition を none にして計算による滑らかさを優先
                 NODES.app.style.transition = 'none';
                 updateTransform();
             }
